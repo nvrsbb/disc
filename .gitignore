@@ -6,3 +6,5 @@ __pycache__/
 *.tsbuildinfo
 .env*
 .npm-cache/
+.xdg/
+.xdg-config/
