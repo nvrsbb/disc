@@ -26,3 +26,7 @@ The 30 rows are transcribed from page 6 of the supplied YOUnique Personality wor
 ## Source note
 
 Inspired by the YOUnique Personality workbook shared for this office activity. This is an unofficial, noncommercial adaptation; no affiliation or endorsement is claimed.
+
+## Phone install
+
+The quiz includes a web manifest, app icons, and a service worker. On iPhone, use Safari's Share menu → Add to Home Screen. On Android, use the browser's Install app or Add to Home Screen action. The quiz shell can open offline, but submitting answers requires an Internet connection so the private ledger confirms the save before showing a result.
