@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
-import { options, score } from '../../../lib/quiz';
+import { score, validateSelections } from '../../../lib/quiz';
 import { saveResponse } from '../../../lib/ledger';
 export const runtime = 'nodejs';
 export async function POST(request: Request) {
@@ -11,10 +11,7 @@ export async function POST(request: Request) {
     const strengths = data?.strengths;
     const weaknesses = data?.weaknesses;
     if (typeof nickname !== 'string' || !/^[\p{L}\p{N} _.-]{1,40}$/u.test(nickname.trim())) throw new Error('Enter a nickname of 1–40 characters.');
-    for (const [values, kind] of [[strengths, 'strengths'], [weaknesses, 'weaknesses']] as const) {
-      const allowed = new Set(options(kind).map(item => item.id));
-      if (!Array.isArray(values) || values.length < 1 || values.length > 4 || new Set(values).size !== values.length || values.some(value => typeof value !== 'string' || !allowed.has(value))) throw new Error('Choose 1–4 valid words in each group.');
-    }
+    if (!validateSelections(strengths, 'strengths') || !validateSelections(weaknesses, 'weaknesses')) throw new Error('Choose one valid word in every row.');
     const outcome = score(strengths, weaknesses);
     const record = { id: randomUUID(), submittedAt: new Date().toISOString(), nickname: nickname.trim(), strengths, weaknesses, scores: outcome.scores, result: outcome.winner };
     await saveResponse(record);
