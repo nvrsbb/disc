@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     const outcome = score(strengths, weaknesses);
     const record = { id: randomUUID(), submittedAt: new Date().toISOString(), nickname: nickname.trim(), strengths, weaknesses, scores: outcome.scores, result: outcome.winner };
     await saveResponse(record);
-    return NextResponse.json({ nickname: record.nickname, result: outcome.result }, { headers: { 'Cache-Control': 'no-store' } });
+    return NextResponse.json({ nickname: record.nickname, result: outcome.result, trait: outcome.winner }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Could not save the response.' }, { status: 400, headers: { 'Cache-Control': 'no-store' } });
   }
