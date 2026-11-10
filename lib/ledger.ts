@@ -1,7 +1,7 @@
 import { mkdir, open } from 'node:fs/promises';
 import path from 'node:path';
 
-export type ResponseRecord = { id: string; submittedAt: string; nickname: string; strengths: string[]; weaknesses: string[]; scores: Record<string, number>; result: string };
+export type ResponseRecord = { id: string; submittedAt: string; nickname: string; strengths: string[]; weaknesses: string[]; strengthScores: Record<string, number>; weaknessScores: Record<string, number>; scores: Record<string, number>; result: string };
 const filename = (id: string) => `responses/${id}.json`;
 
 export async function saveResponse(record: ResponseRecord) {

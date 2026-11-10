@@ -13,9 +13,9 @@ export async function POST(request: Request) {
     if (typeof nickname !== 'string' || !/^[\p{L}\p{N} _.-]{1,40}$/u.test(nickname.trim())) throw new Error('Enter a nickname of 1–40 characters.');
     if (!validateSelections(strengths, 'strengths') || !validateSelections(weaknesses, 'weaknesses')) throw new Error('Choose one valid word in every row.');
     const outcome = score(strengths, weaknesses);
-    const record = { id: randomUUID(), submittedAt: new Date().toISOString(), nickname: nickname.trim(), strengths, weaknesses, scores: outcome.scores, result: outcome.winner };
+    const record = { id: randomUUID(), submittedAt: new Date().toISOString(), nickname: nickname.trim(), strengths, weaknesses, strengthScores: outcome.strengthScores, weaknessScores: outcome.weaknessScores, scores: outcome.scores, result: outcome.winner };
     await saveResponse(record);
-    return NextResponse.json({ nickname: record.nickname, result: outcome.result, trait: outcome.winner }, { headers: { 'Cache-Control': 'no-store' } });
+    return NextResponse.json({ nickname: record.nickname, result: outcome.result, trait: outcome.winner, strengthScores: outcome.strengthScores, weaknessScores: outcome.weaknessScores, scores: outcome.scores }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Could not save the response.' }, { status: 400, headers: { 'Cache-Control': 'no-store' } });
   }

@@ -67,7 +67,9 @@ export function validateSelections(selected: unknown, kind: 'strengths'|'weaknes
   return Array.isArray(selected) && selected.length === 15 && selected.every((word, row) => typeof word === 'string' && (kind === 'strengths' ? strengths : weaknesses)[row].includes(word as never));
 }
 export function score(selectedStrengths: string[], selectedWeaknesses: string[]) {
-  const scores = Object.fromEntries(keys.map(key => [key, selectedStrengths.filter(word => mapping.strengths[word] === key).length + selectedWeaknesses.filter(word => mapping.weaknesses[word] === key).length])) as Record<Trait,number>;
+  const strengthScores = Object.fromEntries(keys.map(key => [key, selectedStrengths.filter(word => mapping.strengths[word] === key).length])) as Record<Trait,number>;
+  const weaknessScores = Object.fromEntries(keys.map(key => [key, selectedWeaknesses.filter(word => mapping.weaknesses[word] === key).length])) as Record<Trait,number>;
+  const scores = Object.fromEntries(keys.map(key => [key, strengthScores[key] + weaknessScores[key]])) as Record<Trait,number>;
   const winner = keys.reduce((best,key) => scores[key] > scores[best] ? key : best);
-  return { scores, winner, result: traits[winner] };
+  return { strengthScores, weaknessScores, scores, winner, result: traits[winner] };
 }
