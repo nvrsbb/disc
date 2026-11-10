@@ -22,3 +22,7 @@ Create a separate **private** GitHub repository with a `main` branch (for exampl
 Import this app repository into Vercel as a Next.js project. Production submissions fail closed if the private ledger is not configured. Each successful submission creates `responses/<UUID>.json` as a separate Git commit. The token is used only by the server route. Treat nickname, responses, and Git history as private personal data.
 
 The current word list is an initial, simplified transcription of the supplied workbook photos. Review the exact wording and scoring before using the quiz as a faithful reproduction.
+
+## Source note
+
+Inspired by the YOUnique Personality workbook shared for this office activity. This is an unofficial, noncommercial adaptation; no affiliation or endorsement is claimed.
